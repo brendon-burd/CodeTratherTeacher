@@ -1,5 +1,6 @@
 using System.Windows.Forms;
 using System.IO;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CodeTratherTeacher
 {
@@ -11,36 +12,56 @@ namespace CodeTratherTeacher
         }
 
         public static string filePath = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads/TratherLogs/";
-        public static string unitTestFilePath = filePath + "unitTest.py";
+        public static string unitTestFilePath = "unitTest.py";
         public static string inputFilePath = "";
+        List<string> assignments = new List<string>();
+        List<string> grades = new List<string>();
 
-        private OpenFileDialog openFileDialog;
-
-        private void getUnitTest()
+        private void getAssignments()
         {
-            // Set up the open file dialog
-            openFileDialog = new OpenFileDialog();
-            //wait for file to be selected
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            using (var fbd = new FolderBrowserDialog())
             {
-                //check if derectory or single file
-                if (openFileDialog.FileName.Contains(".py"))
+                DialogResult result = fbd.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
-                    System.IO.File.WriteAllText(unitTestFilePath, System.IO.File.ReadAllText(openFileDialog.FileName));
-                }
-                else
-                {
-                    foreach (string file in Directory.EnumerateFiles(openFileDialog.FileName, "*.py"))
+                    string[] folders = Directory.GetDirectories(fbd.SelectedPath);
+
+                    //go throuh each folder and find the assigment file
+                    foreach (string folder in folders)
                     {
-                        string contents = File.ReadAllText(file);
-                        MessageBox.Show(contents);
+                        string[] files = Directory.GetFiles(folder);
+                        foreach (string file in files)
+                        {
+                            if (file.Contains("assignment.py"))
+                            {
+                                assignments.Add(file);
+                            }
+                        }
                     }
                 }
             }
         }
 
-        private string runUnitTest() {
+        private OpenFileDialog openFileDialog;
 
+        private void uploadUnitTest()
+        {
+            // Set up the open file dialog
+            openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Upload Unit Test";
+            openFileDialog.Filter = "Python Files (*.py)|*.py";
+
+            //wait for file to be selected
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                //Get the path of specified file and save it in the output directory 
+                string unitTestFile = openFileDialog.FileName;
+                System.IO.File.WriteAllText(unitTestFilePath, System.IO.File.ReadAllText(unitTestFile));
+            }
+        }
+
+        private string runUnitTest() {
             //get file
             System.Diagnostics.Process pProcess = new System.Diagnostics.Process();
             //pProcess.StartInfo.CreateNoWindow = true;
@@ -66,7 +87,21 @@ namespace CodeTratherTeacher
 
         private void gradeUnitTest(object sender, EventArgs e)
         {
-            getUnitTest();
+            uploadUnitTest();
+            getAssignments();
+            foreach (string testFile in assignments)
+            {
+                inputFilePath = testFile;
+                string res = runUnitTest();
+                if (res.Contains("error"))
+                {
+                    grades.Add("0");
+                }
+                else
+                {
+                    grades.Add(res);
+                }
+            }
         }
     }
 }
