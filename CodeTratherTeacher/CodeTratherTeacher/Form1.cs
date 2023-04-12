@@ -12,10 +12,12 @@ namespace CodeTratherTeacher
         }
 
         public static string filePath = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads/TratherLogs/";
-        public static string unitTestFilePath = "unitTest.py";
+        public static string unitTestFilePath = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads/unitTest.py";
+        public static string execFilPath = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads/ExecutiveSummary.csv";
+        public static string tempFilePath = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads/tempCode.py";
         public static string inputFilePath = "";
         List<string> assignments = new List<string>();
-        List<string> grades = new List<string>();
+        List<string> execSumsLocations = new List<string>();
 
         private void getAssignments()
         {
@@ -36,6 +38,10 @@ namespace CodeTratherTeacher
                             if (file.Contains("assignment.py"))
                             {
                                 assignments.Add(file);
+                            }
+                            if (file.Contains("ExecutiveSummary.csv"))
+                            {
+                                execSumsLocations.Add(file);
                             }
                         }
                     }
@@ -61,10 +67,11 @@ namespace CodeTratherTeacher
             }
         }
 
-        private string runUnitTest() {
+        private string runUnitTest(string studentCode) {
+            //create temp file to store student code
+            System.IO.File.WriteAllText(tempFilePath, System.IO.File.ReadAllText(studentCode));
             //get file
             System.Diagnostics.Process pProcess = new System.Diagnostics.Process();
-            //pProcess.StartInfo.CreateNoWindow = true;
             pProcess.StartInfo.UseShellExecute = false;
             pProcess.StartInfo.FileName = "cmd.exe";
             pProcess.StartInfo.Arguments = "/C python " + unitTestFilePath + " " + inputFilePath;
@@ -72,36 +79,42 @@ namespace CodeTratherTeacher
             pProcess.StartInfo.RedirectStandardOutput = true;
             pProcess.StartInfo.RedirectStandardError = true;
             // start the command prompt
-            pProcess.Start();
+            pProcess.Start();  
             string output = pProcess.StandardOutput.ReadToEnd();
             string error = pProcess.StandardError.ReadToEnd();
             pProcess.WaitForExit();
             inputFilePath = "";
             return output + error;
         }
-
-        private void createExec(object sender, EventArgs e)
-        {
-            
-        }
-
         private void gradeUnitTest(object sender, EventArgs e)
         {
+            string grade = "";
             uploadUnitTest();
             getAssignments();
-            foreach (string testFile in assignments)
+            System.IO.File.WriteAllText(execFilPath, "Name, Grade," + Environment.NewLine);
+            for (int i = 0; i < assignments.Count(); i++)
             {
-                inputFilePath = testFile;
-                string res = runUnitTest();
+                inputFilePath = assignments[i];
+                string res = runUnitTest(inputFilePath);
                 if (res.Contains("error"))
                 {
-                    grades.Add("0");
+                    grade = "0";
                 }
                 else
                 {
-                    grades.Add(res);
+                    grade = res;
+                    grade = grade.Replace("\n", "").Replace("\r", "");
                 }
+                List<string> tokens = new List<string>(System.IO.File.ReadAllText(execSumsLocations[i]).Split(','));
+                string name = tokens[0];
+                tokens.RemoveAt(0);
+                string remadeCSV = String.Join(", ", tokens);
+                System.IO.File.AppendAllText(execFilPath, name + "," + grade + "," + remadeCSV + Environment.NewLine);
             }
+            //delete the temp file
+            System.IO.File.Delete(tempFilePath);
+            //alert user
+            MessageBox.Show("File successfully created as ExecutiveSummary.csv in downloads folder");
         }
     }
 }
