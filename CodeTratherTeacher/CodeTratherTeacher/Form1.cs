@@ -67,7 +67,8 @@ namespace CodeTratherTeacher
             }
         }
 
-        private string runUnitTest(string studentCode) {
+        private string runUnitTest(string studentCode)
+        {
             //create temp file to store student code
             System.IO.File.WriteAllText(tempFilePath, System.IO.File.ReadAllText(studentCode));
             //get file
@@ -79,7 +80,7 @@ namespace CodeTratherTeacher
             pProcess.StartInfo.RedirectStandardOutput = true;
             pProcess.StartInfo.RedirectStandardError = true;
             // start the command prompt
-            pProcess.Start();  
+            pProcess.Start();
             string output = pProcess.StandardOutput.ReadToEnd();
             string error = pProcess.StandardError.ReadToEnd();
             pProcess.WaitForExit();
@@ -115,6 +116,11 @@ namespace CodeTratherTeacher
             System.IO.File.Delete(tempFilePath);
             //alert user
             MessageBox.Show("File successfully created as ExecutiveSummary.csv in downloads folder");
+        }
+
+        private void decryptBTN_Click(object sender, EventArgs e)
+        {
+            Cryptog.decryptSubmit();
         }
     }
 }
