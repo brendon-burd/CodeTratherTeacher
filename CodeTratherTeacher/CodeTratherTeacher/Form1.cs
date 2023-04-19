@@ -10,15 +10,24 @@ namespace CodeTratherTeacher
         {
             InitializeComponent();
         }
-
+        
         public static string filePath = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads/TratherLogs/";
         public static string unitTestFilePath = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads/unitTest.py";
         public static string execFilPath = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads/ExecutiveSummary.csv";
         public static string tempFilePath = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads/tempCode.py";
         public static string inputFilePath = "";
+        /// <summary>
+        /// List of the student assignments
+        /// </summary>
         List<string> assignments = new List<string>();
+        /// <summary>
+        /// Locations of all the student summaries
+        /// </summary>
         List<string> execSumsLocations = new List<string>();
 
+        /// <summary>
+        /// Goes through all the student folders and adds the assignment file to the assignments list 
+        /// </summary>
         private void getAssignments()
         {
             using (var fbd = new FolderBrowserDialog())
@@ -51,6 +60,9 @@ namespace CodeTratherTeacher
 
         private OpenFileDialog openFileDialog;
 
+        /// <summary>
+        /// Allows the user to upload a unit test to be tested against
+        /// </summary>
         private void uploadUnitTest()
         {
             // Set up the open file dialog
@@ -67,6 +79,11 @@ namespace CodeTratherTeacher
             }
         }
 
+        /// <summary>
+        /// Tests the given assignment against the uploaded unit test
+        /// </summary>
+        /// <param name="studentCode"></param>
+        /// <returns>Returns the grade that the student received </returns>
         private string runUnitTest(string studentCode)
         {
             //create temp file to store student code
@@ -87,6 +104,12 @@ namespace CodeTratherTeacher
             inputFilePath = "";
             return output + error;
         }
+
+        /// <summary>
+        /// Grades all the student's assignments then records them onto an executive summary along with other elements from the student summaries. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void gradeUnitTest(object sender, EventArgs e)
         {
             string grade = "";
@@ -118,6 +141,11 @@ namespace CodeTratherTeacher
             MessageBox.Show("File successfully created as ExecutiveSummary.csv in downloads folder");
         }
 
+        /// <summary>
+        /// Button to decrypt student folders
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void decryptBTN_Click(object sender, EventArgs e)
         {
             Cryptog.decryptSubmit();
