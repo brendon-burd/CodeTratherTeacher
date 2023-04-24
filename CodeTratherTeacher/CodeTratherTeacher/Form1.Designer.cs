@@ -34,7 +34,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(131, 174);
+            button3.Location = new Point(473, 194);
             button3.Name = "button3";
             button3.Size = new Size(115, 73);
             button3.TabIndex = 3;
@@ -44,9 +44,9 @@
             // 
             // decryptBTN
             // 
-            decryptBTN.Location = new Point(441, 174);
+            decryptBTN.Location = new Point(183, 194);
             decryptBTN.Name = "decryptBTN";
-            decryptBTN.Size = new Size(94, 73);
+            decryptBTN.Size = new Size(115, 73);
             decryptBTN.TabIndex = 4;
             decryptBTN.Text = "Decrypt";
             decryptBTN.UseVisualStyleBackColor = true;
