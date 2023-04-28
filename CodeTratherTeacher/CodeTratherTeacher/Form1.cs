@@ -44,7 +44,7 @@ namespace CodeTratherTeacher
                         string[] files = Directory.GetFiles(folder);
                         foreach (string file in files)
                         {
-                            if (file.Contains("assignment.py"))
+                            if (file.Contains("Program.py"))
                             {
                                 assignments.Add(file);
                             }
@@ -115,7 +115,7 @@ namespace CodeTratherTeacher
             string grade = "";
             uploadUnitTest();
             getAssignments();
-            System.IO.File.WriteAllText(execFilPath, "Name, Grade," + Environment.NewLine);
+            System.IO.File.WriteAllText(execFilPath, "Name, Grade, Errors, Hot Keys, " + Environment.NewLine);
             for (int i = 0; i < assignments.Count(); i++)
             {
                 inputFilePath = assignments[i];
