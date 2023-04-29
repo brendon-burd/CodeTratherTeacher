@@ -1,6 +1,6 @@
 ﻿namespace CodeTratherTeacher
 {
-    partial class Form1
+    partial class Teacher_App
     {
         /// <summary>
         ///  Required designer variable.
@@ -52,15 +52,15 @@
             decryptBTN.UseVisualStyleBackColor = true;
             decryptBTN.Click += decryptBTN_Click;
             // 
-            // Form1
+            // Teacher_App
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(decryptBTN);
             Controls.Add(button3);
-            Name = "Form1";
-            Text = "Form1";
+            Name = "Teacher_App";
+            Text = "Teacher App";
             ResumeLayout(false);
         }
 

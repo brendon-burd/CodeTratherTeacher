@@ -4,13 +4,13 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CodeTratherTeacher
 {
-    public partial class Form1 : Form
+    public partial class Teacher_App : Form
     {
-        public Form1()
+        public Teacher_App()
         {
             InitializeComponent();
         }
-        
+
         public static string filePath = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads/TratherLogs/";
         public static string unitTestFilePath = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads/unitTest.py";
         public static string execFilPath = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads/ExecutiveSummary.csv";
