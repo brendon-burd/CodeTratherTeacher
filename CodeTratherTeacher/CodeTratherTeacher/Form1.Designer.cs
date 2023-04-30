@@ -1,6 +1,6 @@
 ﻿namespace CodeTratherTeacher
 {
-    partial class Form1
+    partial class Teacher_App
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,32 +28,44 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button3 = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            button3 = new Button();
+            decryptBTN = new Button();
+            SuspendLayout();
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(268, 200);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(115, 73);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "Grade with Unit Test";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.gradeUnitTest);
+            button3.Location = new Point(473, 194);
+            button3.Name = "button3";
+            button3.Size = new Size(115, 73);
+            button3.TabIndex = 3;
+            button3.Text = "Grade with Unit Test";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += gradeUnitTest;
             // 
-            // Form1
+            // decryptBTN
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button3);
-            this.Name = "Form1";
-            this.Text = "Form1";
-            this.ResumeLayout(false);
-
+            decryptBTN.Location = new Point(183, 194);
+            decryptBTN.Name = "decryptBTN";
+            decryptBTN.Size = new Size(115, 73);
+            decryptBTN.TabIndex = 4;
+            decryptBTN.Text = "Decrypt";
+            decryptBTN.UseVisualStyleBackColor = true;
+            decryptBTN.Click += decryptBTN_Click;
+            // 
+            // Teacher_App
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(decryptBTN);
+            Controls.Add(button3);
+            Name = "Teacher_App";
+            Text = "Teacher App";
+            ResumeLayout(false);
         }
 
         #endregion
         private Button button3;
+        private Button decryptBTN;
     }
 }

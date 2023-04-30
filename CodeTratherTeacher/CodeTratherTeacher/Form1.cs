@@ -4,9 +4,9 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CodeTratherTeacher
 {
-    public partial class Form1 : Form
+    public partial class Teacher_App : Form
     {
-        public Form1()
+        public Teacher_App()
         {
             InitializeComponent();
         }
@@ -17,9 +17,18 @@ namespace CodeTratherTeacher
         public static string tempFilePath = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads/tempCode.py";
         public static string gradeFile = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads/gradeCT.txt";
         public static string inputFilePath = "";
+        /// <summary>
+        /// List of the student assignments
+        /// </summary>
         List<string> assignments = new List<string>();
+        /// <summary>
+        /// Locations of all the student summaries
+        /// </summary>
         List<string> execSumsLocations = new List<string>();
 
+        /// <summary>
+        /// Goes through all the student folders and adds the assignment file to the assignments list 
+        /// </summary>
         private void getAssignments()
         {
             using (var fbd = new FolderBrowserDialog())
@@ -36,7 +45,7 @@ namespace CodeTratherTeacher
                         string[] files = Directory.GetFiles(folder);
                         foreach (string file in files)
                         {
-                            if (file.Contains("assignment.py"))
+                            if (file.Contains("Program.py"))
                             {
                                 assignments.Add(file);
                             }
@@ -52,6 +61,9 @@ namespace CodeTratherTeacher
 
         private OpenFileDialog openFileDialog;
 
+        /// <summary>
+        /// Allows the user to upload a unit test to be tested against
+        /// </summary>
         private void uploadUnitTest()
         {
             // Set up the open file dialog
@@ -68,7 +80,13 @@ namespace CodeTratherTeacher
             }
         }
 
-        private string runUnitTest(string studentCode) {
+        /// <summary>
+        /// Tests the given assignment against the uploaded unit test
+        /// </summary>
+        /// <param name="studentCode"></param>
+        /// <returns>Returns the grade that the student received </returns>
+        private string runUnitTest(string studentCode)
+        {
             //create temp file to store student code
             System.IO.File.WriteAllText(tempFilePath, System.IO.File.ReadAllText(studentCode));
             //get file
@@ -80,19 +98,25 @@ namespace CodeTratherTeacher
             pProcess.StartInfo.RedirectStandardOutput = true;
             pProcess.StartInfo.RedirectStandardError = true;
             // start the command prompt
-            pProcess.Start();  
+            pProcess.Start();
             string output = pProcess.StandardOutput.ReadToEnd();
             string error = pProcess.StandardError.ReadToEnd();
             pProcess.WaitForExit();
             inputFilePath = "";
             return output + error;
         }
+
+        /// <summary>
+        /// Grades all the student's assignments then records them onto an executive summary along with other elements from the student summaries. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void gradeUnitTest(object sender, EventArgs e)
         {
             string grade = "";
             uploadUnitTest();
             getAssignments();
-            System.IO.File.WriteAllText(execFilPath, "Name, Grade," + Environment.NewLine);
+            System.IO.File.WriteAllText(execFilPath, "Name, Grade, Errors, Hot Keys, " + Environment.NewLine);
             for (int i = 0; i < assignments.Count(); i++)
             {
                 inputFilePath = assignments[i];
@@ -117,6 +141,16 @@ namespace CodeTratherTeacher
             //System.IO.File.Delete(gradeFile);
             //alert user
             MessageBox.Show("File successfully created as ExecutiveSummary.csv in downloads folder");
+        }
+
+        /// <summary>
+        /// Button to decrypt student folders
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void decryptBTN_Click(object sender, EventArgs e)
+        {
+            Cryptog.decryptSubmit();
         }
     }
 }
