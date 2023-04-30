@@ -127,7 +127,7 @@ namespace CodeTratherTeacher
                 }
                 else
                 {
-                    grade = System.IO.File.ReadAllText(gradeFile); 
+                    grade = System.IO.File.ReadAllText(gradeFile);
                     grade = grade.Replace("\n", "").Replace("\r", "");
                 }
                 List<string> tokens = new List<string>(System.IO.File.ReadAllText(execSumsLocations[i]).Split(','));
@@ -138,7 +138,7 @@ namespace CodeTratherTeacher
             }
             //delete the temp files
             System.IO.File.Delete(tempFilePath);
-            //System.IO.File.Delete(gradeFile);
+            System.IO.File.Delete(gradeFile);
             //alert user
             MessageBox.Show("File successfully created as ExecutiveSummary.csv in downloads folder");
         }
