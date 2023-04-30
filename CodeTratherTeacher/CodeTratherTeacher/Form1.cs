@@ -116,7 +116,7 @@ namespace CodeTratherTeacher
             string grade = "";
             uploadUnitTest();
             getAssignments();
-            System.IO.File.WriteAllText(execFilPath, "Name, Grade, Errors, Hot Keys, " + Environment.NewLine);
+            System.IO.File.WriteAllText(execFilPath, "Name, Grade,Student ID, Errors, Hot Keys, " + Environment.NewLine);
             for (int i = 0; i < assignments.Count(); i++)
             {
                 inputFilePath = assignments[i];
