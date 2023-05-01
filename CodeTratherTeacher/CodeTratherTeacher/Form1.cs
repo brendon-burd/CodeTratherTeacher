@@ -1,6 +1,7 @@
 using System.Windows.Forms;
 using System.IO;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Threading;
 
 namespace CodeTratherTeacher
 {
@@ -111,7 +112,7 @@ namespace CodeTratherTeacher
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void gradeUnitTest(object sender, EventArgs e)
+        private async void gradeUnitTest(object sender, EventArgs e)
         {
             string grade = "";
             uploadUnitTest();
@@ -120,7 +121,8 @@ namespace CodeTratherTeacher
             for (int i = 0; i < assignments.Count(); i++)
             {
                 inputFilePath = assignments[i];
-                string res = runUnitTest(inputFilePath);
+                String res = runUnitTest(inputFilePath);
+                Thread.Sleep(1200);
                 if (res.Contains("error"))
                 {
                     grade = "0";
