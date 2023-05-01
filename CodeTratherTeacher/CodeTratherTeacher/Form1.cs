@@ -141,6 +141,7 @@ namespace CodeTratherTeacher
             //delete the temp files
             System.IO.File.Delete(tempFilePath);
             System.IO.File.Delete(gradeFile);
+            assignments.Clear();
             //alert user
             MessageBox.Show("File successfully created as ExecutiveSummary.csv in downloads folder");
         }
